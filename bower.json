@@ -1,0 +1,8 @@
+{
+  "name": "btnsf2sandbox",
+  "version": "0.1.0",
+  "dependencies": {
+    "angular": "~1.2.6",
+    "momentjs": "~2.5.1"
+  }
+}
