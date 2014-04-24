@@ -1,0 +1,20 @@
+// ---------------------------------------------------------------------------
+// Grid
+// ---------------------------------------------------------------------------
+@import "../../vendor/gridle/sass/gridle/gridle";
+
+$gridle-columns-count   : 12;
+$gridle-gutter-width    : 20px;
+$gridle-debug   : false;
+
+
+// generate classes :
+@include gridle_generate_classes();
+
+// ---------------------------------------------------------------------------
+// Background color
+// ---------------------------------------------------------------------------
+$bodyBackground:  #f2f2f2;
+$bodyColor:       #666666;
+$linkColor:       #ff0000;
+

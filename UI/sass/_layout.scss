@@ -1,0 +1,91 @@
+// ---------------------------------------------------------------------------
+// Main header
+// ---------------------------------------------------------------------------
+header[role="banner"] {
+    background: #222222;
+    // background: rgba(24,30,35,0.95);
+    @include gridle(12);
+    height: 40px;
+    line-height: 40px;
+    padding: 0 12px;
+    color: #999999;
+}
+
+// ---------------------------------------------------------------------------
+// Main section of the page
+// ---------------------------------------------------------------------------
+section[role="main"] {
+    nav {
+        @include gridle(12);
+        background: #2b2b2b;
+        color: #cccccc;
+        padding-top: 25px;
+        padding-bottom: 25px;
+    }
+    aside {
+        @include gridle(3);
+        @include gridle_no_gutter();
+        background: #2b2b2b;
+        padding-top: 30px;
+        height: 100%;
+        color: #d1d2d3;
+        .users {
+            .user {
+                // padding: 25px;
+                height: 80px;
+                border-bottom: 1px solid #717b85;
+                &:nth-child(2n+1) {
+                    background: #222222;
+                }
+                .user-data {
+                    padding: 0 25px;
+                    line-height: 80px;
+                    img {
+                        vertical-align: middle;
+                        margin-right: 10px;
+                        @include border-radius(26px);
+                        // border: solid 1px #717b85;
+                    }
+                }
+            }
+        }
+    }
+    .calendar-viewport {
+        overflow: auto;
+        @include gridle(9);
+        @include gridle_no_gutter();
+        .calendar-grid {
+            height: 500px;
+            .day {
+                float: left;
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                background: #ffffff;
+                font-size: 12px;
+                &:nth-child(2n+1) {
+                    background: #f7f7f7;
+                }
+                &.active {
+                    height: 27px;
+                    border-bottom: solid 3px #ff0000;
+                }
+                &.weekend {
+                    background: url(../images/weekend.gif);
+                }
+            }
+            .days {
+                height: 30px;
+                border-bottom: 1px solid #ccc;
+            }
+            .users-grid {
+                height: 80px;
+                border-bottom: 1px solid #ccc;
+                .day {
+                    height: 80px;
+                }
+            }
+        }
+    }
+}

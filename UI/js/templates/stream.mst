@@ -1,0 +1,10 @@
+<a href="{{link}}" class="item {{source}}{{^image}} no-image{{/image}}{{^title}} no-title{{/title}}{{^text}} no-text{{/text}}" data-timestamp="{{timestamp}}">
+   {{#image}}<img src="{{image}}"/>{{/image}}
+   <div class="spacer"></div>
+   <div class="handler"><i class="i-mono">{{icon}}</i></div>
+   <section class="item-content">
+      {{#date}}<time>{{date}}</time>{{/date}}
+      {{#title}}<h3>{{&.}}</h3>{{/title}}
+      {{#text}}<p>{{&.}}</p>{{/text}}
+   </section>
+</a>

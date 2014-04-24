@@ -1,0 +1,29 @@
+// prevent osx to show input outlines
+a, textarea, input { outline: none; }
+
+// clearfix
+.clearfix {
+    @include clearfix;
+    clear: both;
+}
+
+.btn {
+    height: 30px;
+    border: 1px solid #717b85;
+    border-radius: 0;
+    line-height: 28px;
+    background: none;
+    box-shadow: none;
+    padding: 3px 12px;
+    text-shadow: none;
+    color: #d1d2d3;
+    margin: 22px 6px;
+    font-size: 13px;
+    cursor: pointer;
+    &.active,
+    &:hover {
+        border-color: #ff0000;
+        text-decoration: none;
+        background: #222222;
+    }
+}

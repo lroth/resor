@@ -22,3 +22,15 @@ body {
     float: left;
     width: 45px;
 }
+
+
+#sidebar {
+    background-color: #f3f7fa;
+    width: 258px;
+    border-right: 1px #B2CDD8 solid;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    top: 169px;
+    z-index: 100;
+}
