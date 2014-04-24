@@ -39,12 +39,12 @@
             <div class="calendar-grid" style="width: {{ daysContainerWidth }}px">
                 <div class="days">
                   <div class="day" ng-repeat="day in period" ng-class='{active: day.current}'>
-                    {{ day.nb }}
-                  </div>
-                </div>
-                <div class="users-grid" ng-repeat="user in users">
-                  <div class="day" ng-repeat="day in period" ng-class='{weekend: day.weekend}'>
-
+                    <label>{{ day.nb }}</label>
+                    <div class="users-grid" ng-repeat="user in users">
+                      <div class="day" ng-class='{weekend: day.weekend}'>
+                        <div class="task" style="width: 108px; height: 40px" ng-show="{{$index == 1 && $parent.$index == 3}}">urlop (8h)</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
             </div>

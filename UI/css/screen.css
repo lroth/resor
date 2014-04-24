@@ -737,42 +737,55 @@ section[role="main"] .calendar-viewport {
 }
 /* line 57, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid {
-  height: 500px;
+  height: 600px;
 }
 /* line 59, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day {
+  position: relative;
   float: left;
   width: 30px;
-  height: 30px;
+  height: 29px;
   line-height: 30px;
   text-align: center;
   background: #ffffff;
+  border-right: 1px solid #ccc;
   font-size: 12px;
+  border-bottom: 1px solid #ccc;
 }
-/* line 67, ../sass/_layout.scss */
-section[role="main"] .calendar-viewport .calendar-grid .day:nth-child(2n+1) {
-  background: #f7f7f7;
-}
-/* line 70, ../sass/_layout.scss */
+/* line 73, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day.active {
   height: 27px;
   border-bottom: solid 3px #ff0000;
 }
-/* line 74, ../sass/_layout.scss */
+/* line 77, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day.weekend {
   background: url(../images/weekend.gif);
 }
-/* line 78, ../sass/_layout.scss */
+/* line 80, ../sass/_layout.scss */
+section[role="main"] .calendar-viewport .calendar-grid .day .task {
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  z-index: 22;
+  overflow: hidden;
+  top: 0px;
+  border-right: 0;
+  white-space: nowrap;
+  height: auto;
+  font-weight: normal;
+  font-size: 11px;
+  background-color: #068edf;
+}
+/* line 95, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .days {
   height: 30px;
-  border-bottom: 1px solid #ccc;
 }
-/* line 82, ../sass/_layout.scss */
+/* line 98, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .users-grid {
   height: 80px;
   border-bottom: 1px solid #ccc;
 }
-/* line 85, ../sass/_layout.scss */
+/* line 101, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .users-grid .day {
   height: 80px;
 }

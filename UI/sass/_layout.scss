@@ -55,18 +55,21 @@ section[role="main"] {
         @include gridle(9);
         @include gridle_no_gutter();
         .calendar-grid {
-            height: 500px;
+            height: 600px;
             .day {
+                position: relative;
                 float: left;
                 width: 30px;
-                height: 30px;
+                height: 29px;
                 line-height: 30px;
                 text-align: center;
                 background: #ffffff;
+                border-right: 1px solid #ccc;
                 font-size: 12px;
-                &:nth-child(2n+1) {
-                    background: #f7f7f7;
-                }
+                // &:nth-child(2n+1) {
+                //     background: #f7f7f7;
+                // }
+                border-bottom: 1px solid #ccc;
                 &.active {
                     height: 27px;
                     border-bottom: solid 3px #ff0000;
@@ -74,10 +77,23 @@ section[role="main"] {
                 &.weekend {
                     background: url(../images/weekend.gif);
                 }
+                .task {
+                    color: #fff;
+                    cursor: pointer;
+                    position: absolute;
+                    z-index: 22;
+                    overflow: hidden;
+                    top: 0px;
+                    border-right: 0;
+                    white-space: nowrap;
+                    height: auto;
+                    font-weight: normal;
+                    font-size: 11px;
+                    background-color: #068edf;
+                }
             }
             .days {
                 height: 30px;
-                border-bottom: 1px solid #ccc;
             }
             .users-grid {
                 height: 80px;

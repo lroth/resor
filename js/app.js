@@ -5,7 +5,40 @@ var app = angular.module('app', []);
 app.factory('user', function() {
   var user = {
       users: [
-        {name: 'Lukasz Roth'},
+        {
+          name: 'Lukasz Roth',
+          "tasks": [
+          {
+            "task_id": "308484",
+            "task_name": "urlop",
+            "people_id": "18151",
+            "project_id": "32884",
+            "client_name": null,
+            "week_start_date": "2014-04-20",
+            "creation_doy": "94",
+            "start_date": "2014-04-22",
+            "start_doy": "112",
+            "start_yr": "2014",
+            "end_date": "2014-05-02",
+            "end_doy": "122",
+            "block_start_date": "2014-04-22",
+            "block_start_doy": "112",
+            "block_end_doy": "115",
+            "block_end_date": "2014-04-25",
+            "block_len": "4",
+            "hours_pd": "8.0",
+            "total_hours": "72.0",
+            "task_days": "9",
+            "task_cal_days": "11",
+            "created_by": "Lukasz Roth",
+            "modified_by": "Lukasz Roth",
+            "project_name": "Personal Time Off",
+            "sked_admin": "true",
+            "is_owner": "true",
+            "priority": 0
+          }
+          ]
+        },
         {name: 'Michał Soczyński'},
         {name: 'Krzysztof Proszkiewicz'},
         {name: 'Adam Misiorny'},
@@ -89,7 +122,7 @@ app.factory('calendar', function() {
 app.controller('CalendarCtrl', function($scope, calendar, user) {
 
   // initial setup
-  var daySize   = 30;
+  var daySize   = 31;
   $scope.year   = calendar.getYear();
   $scope.period = calendar.monthAsDays();
   $scope.months = calendar.getMonths();
