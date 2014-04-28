@@ -713,8 +713,9 @@ section[role="main"] aside .users .user:nth-child(2n+1) {
 section[role="main"] aside .users .user .user-data {
   padding: 0 25px;
   line-height: 80px;
+  font-size: 13px;
 }
-/* line 43, ../sass/_layout.scss */
+/* line 44, ../sass/_layout.scss */
 section[role="main"] aside .users .user .user-data img {
   vertical-align: middle;
   margin-right: 10px;
@@ -724,7 +725,7 @@ section[role="main"] aside .users .user .user-data img {
   -o-border-radius: 26px;
   border-radius: 26px;
 }
-/* line 53, ../sass/_layout.scss */
+/* line 54, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport {
   overflow: auto;
   float: left;
@@ -735,12 +736,13 @@ section[role="main"] .calendar-viewport {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
-/* line 57, ../sass/_layout.scss */
+/* line 58, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid {
   height: 600px;
 }
-/* line 59, ../sass/_layout.scss */
+/* line 60, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day {
+  cursor: pointer;
   position: relative;
   float: left;
   width: 30px;
@@ -752,16 +754,20 @@ section[role="main"] .calendar-viewport .calendar-grid .day {
   font-size: 12px;
   border-bottom: 1px solid #ccc;
 }
-/* line 73, ../sass/_layout.scss */
+/* line 75, ../sass/_layout.scss */
+section[role="main"] .calendar-viewport .calendar-grid .day:hover {
+  background: #f7f7f7;
+}
+/* line 78, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day.active {
   height: 27px;
   border-bottom: solid 3px #ff0000;
 }
-/* line 77, ../sass/_layout.scss */
+/* line 82, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day.weekend {
   background: url(../images/weekend.gif);
 }
-/* line 80, ../sass/_layout.scss */
+/* line 85, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .day .task {
   color: #fff;
   cursor: pointer;
@@ -776,16 +782,16 @@ section[role="main"] .calendar-viewport .calendar-grid .day .task {
   font-size: 11px;
   background-color: #068edf;
 }
-/* line 95, ../sass/_layout.scss */
+/* line 100, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .days {
   height: 30px;
 }
-/* line 98, ../sass/_layout.scss */
+/* line 103, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .users-grid {
   height: 80px;
   border-bottom: 1px solid #ccc;
 }
-/* line 101, ../sass/_layout.scss */
+/* line 106, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .users-grid .day {
   height: 80px;
 }

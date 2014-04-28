@@ -6,6 +6,7 @@
     "momentjs": "~2.5.1",
     "html5shiv": "~3.7.0",
     "modernizr": "2.7.2",
-    "gridle": "~1.1.0"
+    "gridle": "~1.1.0",
+    "ngDialog": "~0.1.7"
   }
 }

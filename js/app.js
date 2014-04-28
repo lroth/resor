@@ -1,53 +1,59 @@
 // main app
-var app = angular.module('app', []);
+var app = angular.module('app', ['ngDialog']);
+
+app.directive('stopEvent', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            element.bind('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    };
+ });
 
 // UserService
 app.factory('user', function() {
   var user = {
       users: [
         {
+          id: 1,
           name: 'Lukasz Roth',
           "tasks": [
-          {
-            "task_id": "308484",
-            "task_name": "urlop",
-            "people_id": "18151",
-            "project_id": "32884",
-            "client_name": null,
-            "week_start_date": "2014-04-20",
-            "creation_doy": "94",
-            "start_date": "2014-04-22",
-            "start_doy": "112",
-            "start_yr": "2014",
-            "end_date": "2014-05-02",
-            "end_doy": "122",
-            "block_start_date": "2014-04-22",
-            "block_start_doy": "112",
-            "block_end_doy": "115",
-            "block_end_date": "2014-04-25",
-            "block_len": "4",
-            "hours_pd": "8.0",
-            "total_hours": "72.0",
-            "task_days": "9",
-            "task_cal_days": "11",
-            "created_by": "Lukasz Roth",
-            "modified_by": "Lukasz Roth",
-            "project_name": "Personal Time Off",
-            "sked_admin": "true",
-            "is_owner": "true",
-            "priority": 0
-          }
+            {
+              "id": "308484",
+              "name": "urlop",
+              "user_id": "18151",
+              "project_id": "32884",
+              "block_start_date": "2014-04-21",
+              "block_start_doy": "111",
+              "block_end_doy": "115",
+              "block_end_date": "2014-04-25",
+              "block_len": "4",
+              "hours_pd": "8.0",
+              "total_hours": "72.0",
+              "project_name": "Personal Time Off"
+            }
           ]
         },
-        {name: 'Michał Soczyński'},
-        {name: 'Krzysztof Proszkiewicz'},
-        {name: 'Adam Misiorny'},
-        {name: 'Radek Szczepaniak'},
-        {name: 'Leszek Pawlak'},
-        {name: 'Marek Murawski'}
+        {id: 2, "tasks": [], name: 'Michał Soczyński'},
+        {id: 3, "tasks": [], name: 'Krzysztof Proszkiewicz'},
+        {id: 4, "tasks": [], name: 'Adam Misiorny'},
+        {id: 5, "tasks": [], name: 'Radek Szczepaniak'},
+        {id: 6, "tasks": [], name: 'Leszek Pawlak'},
+        {id: 7, "tasks": [], name: 'Marek Murawski'}
       ],
+
       getUsers: function() {
         return this.users;
+      },
+
+      getUserById: function(id) {
+        for (var i = 0; i < this.users.length; i++) {
+          if (this.users[i].id == id) return this.users[i];
+        };
+
+        return null;
       }
   }
 
@@ -89,7 +95,9 @@ app.factory('calendar', function() {
                 nb: i,
                 shortName: this.current.date(i).format("dd"),
                 current: moment().isSame(this.current, 'day'),
-                weekend: (this.current.weekday() == 6 || this.current.weekday() == 0)
+                weekend: (this.current.weekday() == 6 || this.current.weekday() == 0),
+                ofYear: this.current.dayOfYear(),
+                date: this.current.format('YYYY-MM-DD')
               });
             };
 
@@ -119,14 +127,15 @@ app.factory('calendar', function() {
 });
 
 // Controller
-app.controller('CalendarCtrl', function($scope, calendar, user) {
+app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
 
   // initial setup
-  var daySize   = 31;
+  // var daySize   = 31;
+  $scope.cellSize = 31;
   $scope.year   = calendar.getYear();
   $scope.period = calendar.monthAsDays();
   $scope.months = calendar.getMonths();
-  $scope.daysContainerWidth = daySize * calendar.monthAsDays().length;
+  $scope.daysContainerWidth = $scope.cellSize * calendar.monthAsDays().length;
   $scope.users  = user.getUsers();
 
   $scope.next = function() {
@@ -147,6 +156,37 @@ app.controller('CalendarCtrl', function($scope, calendar, user) {
   $scope.reset = function() {
       calendar.reset();
       updateView();
+  };
+
+  $scope.edit = function(task_id) {
+      console.log(task_id);
+      //prepare task
+      var task = {
+          "block_start_date": "2014-04-21"
+      }
+      $scope.task = task;
+
+      ngDialog.open({ template: 'newTask', scope: $scope });
+  };
+
+  $scope.create = function() {
+      var u = user.getUserById(this.task.user_id);
+      console.log(this.task);
+      this.task.block_len = 3;
+      u.tasks.push(this.task);
+      ngDialog.close();
+  };
+
+  $scope.new = function(doy, user_id, year, date) {
+    //prepare task
+    var task = {
+        "user_id": user_id,
+        "block_start_date": date,
+        "block_start_doy": doy,
+    }
+    $scope.task = task;
+
+    ngDialog.open({ template: 'newTask', scope: $scope });
   };
 
   updateView = function() {
