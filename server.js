@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 app.post('/hook', function(req, res){
-    console.log(req.payload);
+    console.log(req.commits);
     res.send('Hello World');
 });
 
