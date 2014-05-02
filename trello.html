@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="https://api.trello.com/1/client.js?key=a4a1fbde221d3ab65ef9235422177a7a"></script>
+    <script src="vendor/angular/angular.js"></script>
+    <link rel="stylesheet" href="UI/css/screen.css">
+    <style>
+      ul ul {
+        margin-left: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="fullName">None</div>
+      <a href="#" onClick="trelloAuth()" id="login">Auth</a>
+      <a href="#" onClick="logout()" id="logout" style="display: none">Deauth</a>
+      <ul id="users"></ul>
+      <ul id="boards"></ul>
+    </div>
+    <script>
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+      /*----------------------------------------------------------------------------------------------------*/
+      // https://trello.com/docs/api/member/index.html
+
+      var resourcesBoardId = 'lX34SxNJ'
+
+      var onAuthorize = function() {
+          Trello.members.get("me", function(member){
+              $("#fullName").text(member.username);
+          });
+
+          // Trello.get("members/lukaszroth/boards", function(list) {
+          //     for (var i = 0; i < list.length; i++) {
+          //       var li = $('<li>');
+          //       li.html(list[i].name);
+          //       console.log(list[i]);
+          //       $('#boards').append(li);
+          //     };
+          // });
+
+          Trello.get("boards/" + resourcesBoardId + "/lists", function(list) {
+            // we have btn users here, get their active projects
+            for (var i = 0; i < list.length; i++) {
+              var user = list[i];
+              var li = $('<li>');
+              li.html(list[i].name + ' | ' + list[i].id);
+              // console.log(list[i]);
+              var list_id = list[i].id;
+              var id = 'user_' + list_id
+              li.append('<ul id=' + id + '>');
+              $('#users').append(li);
+
+              //for each user get his projects
+              Trello.get("lists/" + list_id + "/cards", function(cards) {
+                for (var i = 0; i < cards.length; i++) {
+                  var li = $('<li>');
+                  li.html(cards[i].name);
+                  // console.log(cards[i]);
+                  $('#user_' + cards[i].idList).append(li);
+                };
+              });
+
+              //get activities
+              if (user.name == 'Doing') {
+                // console.log();
+                Trello.get('lists/' + user.id + '/actions', function(activities) {
+                  console.log(activities);
+                });
+              };
+            };
+          });
+      };
+
+      var trelloAuth = function(onSuccess, onError) {
+        var opt = {
+          type: "popup",
+          name: "BtnResources",
+          scope: { read: true },
+          success: onAuthorize,
+          error: onError
+        };
+
+        Trello.authorize(opt);
+      }
+
+      Trello.authorize({
+          interactive:false,
+          success: onAuthorize
+      });
+
+      if (Trello.authorized()) {
+        $('#login').hide();
+        $('#logout').show();
+      };
+
+      var logout = function() {
+          Trello.deauthorize();
+      };
+
+
+    </script>
+  </body>
+</html>
