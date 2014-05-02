@@ -1,11 +1,10 @@
-var express = require('express');
-var app = express();
-
-app.post('/hook', function(req, res){
-    console.log(req.param('payload'));
-    res.send('Hello World');
+var githubhook = require('githubhook');
+var github = githubhook({
+    port: 3000
 });
 
+github.listen();
 
-//
-var server = app.listen(3000);
+github.on('push', function (repo, ref, data) {
+    console.log(data);
+});
