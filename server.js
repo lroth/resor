@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-app.get('/hook', function(req, res){
+app.post('/hook', function(req, res){
     console.log(req);
     res.send('Hello World');
 });
