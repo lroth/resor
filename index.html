@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="https://api.trello.com/1/client.js?key=a4a1fbde221d3ab65ef9235422177a7a"></script>
     <script src="vendor/angular/angular.js"></script>
     <script src="vendor/ngDialog/js/ngDialog.min.js"></script>
     <script src="vendor/momentjs/min/moment.min.js"></script>
@@ -15,18 +17,6 @@
       <header role="banner">
          btn resources
       </header>
-
-      <script type="text/ng-template" id="newTask">
-          <h1>Add new task</h1>
-          <form ng-submit="create()" ng-controller="CalendarCtrl">
-            name: <input ng-model="task.name" /> <br/>
-            user: <input ng-model="task.user_id" /> <br/>
-            start at: <input ng-model="task.block_start_date" /> <br/>
-            end at: <input ng-model="task.block_end_date" /> <br/>
-            <input type="submit" id="submit" value="Submit" />
-          </form>
-      </script>
-
 
       <section role="main">
         <div ng-controller="CalendarCtrl">
@@ -54,9 +44,10 @@
             <div class="calendar-grid" style="width: {{ daysContainerWidth }}px">
                 <div class="days">
                   <div class="day" ng-repeat="day in period" ng-class='{active: day.current}'>
+                    <!-- <label>{{ day.shortName }}</label> -->
                     <label>{{ day.nb }}</label>
-                    <div class="users-grid" ng-repeat="user in users">
-                      <div class="day" ng-class='{weekend: day.weekend}' ng-click="new(day.ofYear, user.id, year, day.date)">
+                    <div class="users-grid" ng-repeat="(id, user) in users">
+                      <div class="day" ng-class='{weekend: day.weekend}'>
                         <div class="task" style="width: {{task.block_len * cellSize}}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear }" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
                       </div>
                     </div>

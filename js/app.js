@@ -1,3 +1,10 @@
+// Trello resources board id
+var resourcesBoardId = 'lX34SxNJ';
+
+Trello.authorize({
+    interactive:false
+});
+
 // main app
 var app = angular.module('app', ['ngDialog']);
 
@@ -13,7 +20,7 @@ app.directive('stopEvent', function () {
  });
 
 // UserService
-app.factory('user', function() {
+app.factory('user', function($q) {
   var user = {
       users: [
         {
@@ -45,7 +52,29 @@ app.factory('user', function() {
       ],
 
       getUsers: function() {
-        return this.users;
+        var deferred = $q.defer();
+
+        Trello.get("boards/" + resourcesBoardId + "/lists", function(results) {
+            deferred.resolve(results);
+        });
+
+        return deferred.promise;
+
+        // return this.users;
+      },
+
+      getUserTasks: function(listId) {
+            var deferred = $q.defer();
+
+            Trello.get("lists/" + listId + "/cards", function(cards) {
+                for (var i = cards.length - 1; i >= 0; i--) {
+                    cards[i].block_start_doy = moment(cards[i].desc, "DD-MM-YYYY").dayOfYear();
+                    cards[i].block_len       = moment(cards[i].due).dayOfYear() - cards[i].block_start_doy;
+                };
+                deferred.resolve(cards);
+            });
+
+            return deferred.promise;
       },
 
       getUserById: function(id) {
@@ -130,13 +159,38 @@ app.factory('calendar', function() {
 app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
 
   // initial setup
-  // var daySize   = 31;
+  var daySize     = 31;
   $scope.cellSize = 31;
-  $scope.year   = calendar.getYear();
-  $scope.period = calendar.monthAsDays();
-  $scope.months = calendar.getMonths();
+  $scope.year     = calendar.getYear();
+  $scope.period   = calendar.monthAsDays();
+  $scope.months   = calendar.getMonths();
   $scope.daysContainerWidth = $scope.cellSize * calendar.monthAsDays().length;
-  $scope.users  = user.getUsers();
+  // $scope.users    = user.getUsers();
+  var usersPromise = user.getUsers();
+  usersPromise.then(function(users) {  // this is only run after $http completes
+       $scope.users = users;
+       // console.log("users " + $scope.users);
+       // console.log('get tasks for users');
+       //get tasks
+       for (var i = $scope.users.length - 1; i >= 0; i--) {
+            $scope.users[i].tasks = [];
+
+            tasksPromises = user.getUserTasks($scope.users[i].id);
+            tasksPromises.then(function(tasks) {
+                //find the place to put
+                if (tasks.length > 0) {
+                    var idList = tasks[0].idList;
+                    for (var j = $scope.users.length - 1; j >= 0; j--) {
+                        if ($scope.users[j].id == idList) {
+                            $scope.users[j].tasks = tasks;
+                            break;
+                        }
+                    };
+                };
+                // console.log(tasks);
+            });
+       };
+  });
 
   $scope.next = function() {
       calendar.next('month');
@@ -156,37 +210,6 @@ app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
   $scope.reset = function() {
       calendar.reset();
       updateView();
-  };
-
-  $scope.edit = function(task_id) {
-      console.log(task_id);
-      //prepare task
-      var task = {
-          "block_start_date": "2014-04-21"
-      }
-      $scope.task = task;
-
-      ngDialog.open({ template: 'newTask', scope: $scope });
-  };
-
-  $scope.create = function() {
-      var u = user.getUserById(this.task.user_id);
-      console.log(this.task);
-      this.task.block_len = 3;
-      u.tasks.push(this.task);
-      ngDialog.close();
-  };
-
-  $scope.new = function(doy, user_id, year, date) {
-    //prepare task
-    var task = {
-        "user_id": user_id,
-        "block_start_date": date,
-        "block_start_doy": doy,
-    }
-    $scope.task = task;
-
-    ngDialog.open({ template: 'newTask', scope: $scope });
   };
 
   updateView = function() {

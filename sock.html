@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+</head><body lang="en">
+    <h1>SockJS Echo example</h1>
+
+    <script>
+         var sockjs_url = 'http://localhost:9999/echo';
+         var sock = new SockJS(sockjs_url);
+         sock.onopen = function() {
+             console.log('open');
+         };
+         sock.onmessage = function(e) {
+             console.log('message', e.data);
+         };
+         sock.onclose = function() {
+             console.log('close');
+         };
+
+    </script>
+</body></html>
