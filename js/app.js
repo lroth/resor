@@ -2,54 +2,16 @@
 var resourcesBoardId = 'lX34SxNJ';
 
 Trello.authorize({
-    interactive:false
+    interactive:true
 });
 
 // main app
 var app = angular.module('app', ['ngDialog']);
 
-app.directive('stopEvent', function () {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            element.bind('click', function (e) {
-                e.stopPropagation();
-            });
-        }
-    };
- });
-
 // UserService
 app.factory('user', function($q) {
   var user = {
-      users: [
-        {
-          id: 1,
-          name: 'Lukasz Roth',
-          "tasks": [
-            {
-              "id": "308484",
-              "name": "urlop",
-              "user_id": "18151",
-              "project_id": "32884",
-              "block_start_date": "2014-04-21",
-              "block_start_doy": "111",
-              "block_end_doy": "115",
-              "block_end_date": "2014-04-25",
-              "block_len": "4",
-              "hours_pd": "8.0",
-              "total_hours": "72.0",
-              "project_name": "Personal Time Off"
-            }
-          ]
-        },
-        {id: 2, "tasks": [], name: 'Michał Soczyński'},
-        {id: 3, "tasks": [], name: 'Krzysztof Proszkiewicz'},
-        {id: 4, "tasks": [], name: 'Adam Misiorny'},
-        {id: 5, "tasks": [], name: 'Radek Szczepaniak'},
-        {id: 6, "tasks": [], name: 'Leszek Pawlak'},
-        {id: 7, "tasks": [], name: 'Marek Murawski'}
-      ],
+      users: [],
 
       getUsers: function() {
         var deferred = $q.defer();
@@ -63,13 +25,31 @@ app.factory('user', function($q) {
         // return this.users;
       },
 
-      getUserTasks: function(listId) {
+      getUserTasks: function(listId, period) {
             var deferred = $q.defer();
 
+            var lowLimit  = moment(period[0], "DD-MM-YYYY");
+            var highLimit = moment(period[period.length - 1], "DD-MM-YYYY");
+// TODO!!
             Trello.get("lists/" + listId + "/cards", function(cards) {
                 for (var i = cards.length - 1; i >= 0; i--) {
-                    cards[i].block_start_doy = moment(cards[i].desc, "DD-MM-YYYY").dayOfYear();
-                    cards[i].block_len       = moment(cards[i].due).dayOfYear() - cards[i].block_start_doy;
+
+                    var startDay = moment(cards[i].desc, "DD-MM-YYYY");
+                    var endDay   = moment(cards[i].due, "DD-MM-YYYY");
+
+                    //fix those data if task started before current period
+                    if (moment(startDay).isBefore(lowLimit)) {
+                        startDay = lowLimit;
+                    };
+
+                    var length   = endDay.dayOfYear() - startDay.dayOfYear();
+                    //fix length
+                    // if (moment(endDay).isAfter(highLimit)) {
+                    //     length = highLimit.dayOfYear() - startDay.dayOfYear();
+                    // };
+console.log(length);
+                    cards[i].block_start_doy = startDay.dayOfYear();
+                    cards[i].block_len       = length;
                 };
                 deferred.resolve(cards);
             });
@@ -117,6 +97,7 @@ app.factory('calendar', function() {
 
           return months;
         },
+
         monthAsDays: function() {
             var days = [];
             for (var i = 1; i <= this.current.daysInMonth(); i++) {
@@ -163,6 +144,7 @@ app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
   $scope.cellSize = 31;
   $scope.year     = calendar.getYear();
   $scope.period   = calendar.monthAsDays();
+
   $scope.months   = calendar.getMonths();
   $scope.daysContainerWidth = $scope.cellSize * calendar.monthAsDays().length;
   // $scope.users    = user.getUsers();
@@ -175,7 +157,7 @@ app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
        for (var i = $scope.users.length - 1; i >= 0; i--) {
             $scope.users[i].tasks = [];
 
-            tasksPromises = user.getUserTasks($scope.users[i].id);
+            tasksPromises = user.getUserTasks($scope.users[i].id, $scope.period);
             tasksPromises.then(function(tasks) {
                 //find the place to put
                 if (tasks.length > 0) {
