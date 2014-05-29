@@ -28,14 +28,14 @@ app.factory('user', function($q) {
       getUserTasks: function(listId, period) {
             var deferred = $q.defer();
 
-            var lowLimit  = moment(period[0], "DD-MM-YYYY");
-            var highLimit = moment(period[period.length - 1], "DD-MM-YYYY");
-// TODO!!
+            var lowLimit  = moment(period[0].date, "YYYY-MM-DD");
+            var highLimit = moment(period[period.length - 1].date, "YYYY-MM-DD");
+
             Trello.get("lists/" + listId + "/cards", function(cards) {
                 for (var i = cards.length - 1; i >= 0; i--) {
 
                     var startDay = moment(cards[i].desc, "DD-MM-YYYY");
-                    var endDay   = moment(cards[i].due, "DD-MM-YYYY");
+                    var endDay   = moment(cards[i].due);
 
                     //fix those data if task started before current period
                     if (moment(startDay).isBefore(lowLimit)) {
@@ -43,11 +43,12 @@ app.factory('user', function($q) {
                     };
 
                     var length   = endDay.dayOfYear() - startDay.dayOfYear();
+
                     //fix length
-                    // if (moment(endDay).isAfter(highLimit)) {
-                    //     length = highLimit.dayOfYear() - startDay.dayOfYear();
-                    // };
-console.log(length);
+                    if (moment(endDay).isAfter(highLimit)) {
+                        length = highLimit.dayOfYear() - startDay.dayOfYear();
+                    };
+
                     cards[i].block_start_doy = startDay.dayOfYear();
                     cards[i].block_len       = length;
                 };

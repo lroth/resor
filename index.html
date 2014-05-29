@@ -47,7 +47,7 @@
                     <label>{{ day.nb }}</label>
                     <div class="users-grid" ng-repeat="(id, user) in users">
                       <div class="day" ng-class='{weekend: day.weekend}'>
-                        <div class="task" style="width: {{task.block_len * cellSize}}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear }" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
+                        <div class="task" style="width: {{task.block_len * cellSize}}px;" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear }" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
                       </div>
                     </div>
                   </div>
