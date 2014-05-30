@@ -23,7 +23,7 @@ section[role="main"] {
         padding-bottom: 25px;
     }
     aside {
-        @include gridle(3);
+        @include gridle(2);
         @include gridle_no_gutter();
         background: #2b2b2b;
         padding-top: 30px;
@@ -53,10 +53,13 @@ section[role="main"] {
     }
     .calendar-viewport {
         overflow: auto;
-        @include gridle(9);
+        @include gridle(10);
         @include gridle_no_gutter();
         .calendar-grid {
             height: 600px;
+            .month {
+                float: left;
+            }
             .day {
                 cursor: pointer;
                 position: relative;
@@ -94,7 +97,7 @@ section[role="main"] {
                     height: auto;
                     font-weight: normal;
                     font-size: 11px;
-                    background-color: #068edf;
+                    // background-color: #068edf;
                 }
             }
             .days {
@@ -110,3 +113,10 @@ section[role="main"] {
         }
     }
 }
+
+.card-label-green{background-color:#34b27d}
+.card-label-yellow{background-color:#dbdb57}
+.card-label-orange{background-color:#e09952}
+.card-label-red{background-color:#cb4d4d}
+.card-label-purple{background-color:#93c}
+.card-label-blue{background-color:#068edf}

@@ -42,16 +42,19 @@
 
           <div class="calendar-viewport">
             <div class="calendar-grid" style="width: {{ daysContainerWidth }}px">
+              <div class="month" ng-repeat="month in period">
                 <div class="days">
-                  <div class="day" ng-repeat="day in period" ng-class='{active: day.current}'>
+                  <div class="day" ng-repeat="day in month" ng-class='{active: day.current}'>
                     <label>{{ day.nb }}</label>
                     <div class="users-grid" ng-repeat="(id, user) in users">
+
                       <div class="day" ng-class='{weekend: day.weekend}'>
-                        <div class="task" style="width: {{task.block_len * cellSize}}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear }" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
+                        <div class="task card-label-{{ task.color }}" style="width: {{task.block_len * cellSize}}px; top: {{ task.index * 30 }}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear }" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
