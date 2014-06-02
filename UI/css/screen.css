@@ -1,4 +1,4 @@
-/* line 17, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,45 +20,45 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* line 22, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 22, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html {
   line-height: 1;
 }
 
-/* line 24, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 24, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 26, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 26, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 28, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 28, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 30, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 30, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: none;
 }
-/* line 103, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 103, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
   content: none;
 }
 
-/* line 32, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 32, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
 
-/* line 116, ../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 116, ../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
@@ -696,7 +696,7 @@ section[role="main"] aside {
   padding-left: 0 !important;
   padding-right: 0 !important;
   background: #2b2b2b;
-  padding-top: 30px;
+  padding-top: 60px;
   height: 100%;
   color: #d1d2d3;
 }
@@ -741,7 +741,7 @@ section[role="main"] .calendar-viewport .calendar-grid {
   height: 600px;
 }
 /* line 60, ../sass/_layout.scss */
-section[role="main"] .calendar-viewport .calendar-grid .month {
+section[role="main"] .calendar-viewport .calendar-grid .months {
   float: left;
 }
 /* line 63, ../sass/_layout.scss */
@@ -786,45 +786,55 @@ section[role="main"] .calendar-viewport .calendar-grid .day .task {
   font-size: 11px;
 }
 /* line 103, ../sass/_layout.scss */
+section[role="main"] .calendar-viewport .calendar-grid .month {
+  height: 30px;
+  background: #ffffff;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  line-height: 30px;
+  text-align: center;
+  font-size: 12px;
+}
+/* line 112, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .days {
   height: 30px;
 }
-/* line 106, ../sass/_layout.scss */
+/* line 115, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .users-grid {
   height: 80px;
   border-bottom: 1px solid #ccc;
 }
-/* line 109, ../sass/_layout.scss */
+/* line 118, ../sass/_layout.scss */
 section[role="main"] .calendar-viewport .calendar-grid .users-grid .day {
   height: 80px;
 }
 
-/* line 117, ../sass/_layout.scss */
+/* line 126, ../sass/_layout.scss */
 .card-label-green {
   background-color: #34b27d;
 }
 
-/* line 118, ../sass/_layout.scss */
+/* line 127, ../sass/_layout.scss */
 .card-label-yellow {
   background-color: #dbdb57;
 }
 
-/* line 119, ../sass/_layout.scss */
+/* line 128, ../sass/_layout.scss */
 .card-label-orange {
   background-color: #e09952;
 }
 
-/* line 120, ../sass/_layout.scss */
+/* line 129, ../sass/_layout.scss */
 .card-label-red {
   background-color: #cb4d4d;
 }
 
-/* line 121, ../sass/_layout.scss */
+/* line 130, ../sass/_layout.scss */
 .card-label-purple {
   background-color: #93c;
 }
 
-/* line 122, ../sass/_layout.scss */
+/* line 131, ../sass/_layout.scss */
 .card-label-blue {
   background-color: #068edf;
 }

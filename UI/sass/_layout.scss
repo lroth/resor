@@ -26,7 +26,7 @@ section[role="main"] {
         @include gridle(2);
         @include gridle_no_gutter();
         background: #2b2b2b;
-        padding-top: 30px;
+        padding-top: 60px;
         height: 100%;
         color: #d1d2d3;
         .users {
@@ -57,7 +57,7 @@ section[role="main"] {
         @include gridle_no_gutter();
         .calendar-grid {
             height: 600px;
-            .month {
+            .months {
                 float: left;
             }
             .day {
@@ -99,6 +99,15 @@ section[role="main"] {
                     font-size: 11px;
                     // background-color: #068edf;
                 }
+            }
+            .month {
+                height: 30px;
+                background: #ffffff;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                line-height: 30px;
+                text-align: center;
+                font-size: 12px;
             }
             .days {
                 height: 30px;
