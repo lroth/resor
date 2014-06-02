@@ -17,7 +17,8 @@ app.factory('user', function($q) {
         var deferred = $q.defer();
 
         Trello.get("boards/" + resourcesBoardId + "/lists", function(results) {
-            deferred.resolve(results);
+            // remove projects inbox?
+            deferred.resolve(results.splice(1, results.length));
         });
 
         return deferred.promise;
@@ -32,10 +33,11 @@ app.factory('user', function($q) {
             var highLimit = moment(period[period.length - 1].date, "YYYY-MM-DD");
 
             Trello.get("lists/" + listId + "/cards", function(cards) {
+                // console.log(cards)
                 for (var i = cards.length - 1; i >= 0; i--) {
 
                     var startDay = moment(cards[i].desc, "DD-MM-YYYY");
-                    var endDay   = moment(cards[i].due);
+                    var endDay   = moment(cards[i].due, "YYYY-MM-DD");
 
                     //fix those data if task started before current period
                     if (moment(startDay).isBefore(lowLimit)) {
@@ -49,8 +51,18 @@ app.factory('user', function($q) {
                         length = highLimit.dayOfYear() - startDay.dayOfYear();
                     };
 
+
+                    cards[i].color = 'blue';
+
+                    if (cards[i].labels.length > 0) {
+                        cards[i].color = cards[i].labels[0].color;
+                    };
+
                     cards[i].block_start_doy = startDay.dayOfYear();
                     cards[i].block_len       = length;
+                    cards[i].index           = i;
+
+                    // console.log(cards[i]);
                 };
                 deferred.resolve(cards);
             });
@@ -99,6 +111,24 @@ app.factory('calendar', function() {
           return months;
         },
 
+        monthsAsDays: function() {
+            var months = [];
+
+            //get previous month
+            this.prev('month');
+            months.push(this.monthAsDays());
+
+            //get current month
+            this.next('month');
+            months.push(this.monthAsDays());
+
+            //get next month
+            this.next('month');
+            months.push(this.monthAsDays());
+
+            return months;
+        },
+
         monthAsDays: function() {
             var days = [];
             for (var i = 1; i <= this.current.daysInMonth(); i++) {
@@ -144,10 +174,17 @@ app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
   var daySize     = 31;
   $scope.cellSize = 31;
   $scope.year     = calendar.getYear();
-  $scope.period   = calendar.monthAsDays();
+  // $scope.period   = calendar.monthAsDays();
+  $scope.period   = calendar.monthsAsDays();
 
   $scope.months   = calendar.getMonths();
-  $scope.daysContainerWidth = $scope.cellSize * calendar.monthAsDays().length;
+
+  var nbDays = 0;
+  for (var i = 0; i < $scope.period.length; i++) {
+    nbDays += $scope.period[i].length;
+  };
+
+  $scope.daysContainerWidth = $scope.cellSize * nbDays;
   // $scope.users    = user.getUsers();
   var usersPromise = user.getUsers();
   usersPromise.then(function(users) {  // this is only run after $http completes
@@ -197,9 +234,14 @@ app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
 
   updateView = function() {
       $scope.year   = calendar.getYear();
-      $scope.period = calendar.monthAsDays();
+      $scope.period = calendar.monthsAsDays();
       $scope.months = calendar.getMonths();
-      $scope.daysContainerWidth = daySize * calendar.monthAsDays().length;
+      var nbDays = 0;
+      for (var i = 0; i < $scope.period.length; i++) {
+        nbDays += $scope.period[i].length;
+      };
+
+      $scope.daysContainerWidth = $scope.cellSize * nbDays;
   };
 
 });
