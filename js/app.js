@@ -26,44 +26,50 @@ app.factory('user', function($q) {
         // return this.users;
       },
 
+      fitToView: function(cards, period) {
+          var lowLimit  = moment(period[0]['days'][0].date, "YYYY-MM-DD");
+          var highLimit = moment(period[period.length - 1]['days'][period[period.length - 1]['days'].length - 1].date, "YYYY-MM-DD");
+
+          for (var i = cards.length - 1; i >= 0; i--) {
+
+              var startDay = moment(cards[i].desc, "DD-MM-YYYY");
+              var endDay   = moment(cards[i].due, "YYYY-MM-DD");
+
+              //fix those data if task started before current period
+              if (moment(startDay).isBefore(lowLimit)) {
+                  startDay = lowLimit;
+              };
+
+              var length = endDay.dayOfYear() - startDay.dayOfYear();
+
+              //fix length
+              if (moment(endDay).isAfter(highLimit)) {
+                  length = highLimit.dayOfYear() - startDay.dayOfYear();
+              };
+
+              cards[i].color = 'blue';
+
+              if (cards[i].labels.length > 0) {
+                  cards[i].color = cards[i].labels[0].color;
+              };
+
+              cards[i].year            = startDay.format("YYYY");
+              cards[i].block_start_doy = startDay.dayOfYear();
+              cards[i].block_len       = length + 1; //+1 to fill in the last day also
+              cards[i].index           = i;
+          };
+
+          return cards;
+      },
+
       getUserTasks: function(listId, period) {
             var deferred = $q.defer();
-
-            var lowLimit  = moment(period[0]['days'][0].date, "YYYY-MM-DD");
-            var highLimit = moment(period[period.length - 1]['days'][period[period.length - 1]['days'].length - 1].date, "YYYY-MM-DD");
+            var that      = this;
 
             Trello.get("lists/" + listId + "/cards", function(cards) {
                 // console.log(cards)
-                for (var i = cards.length - 1; i >= 0; i--) {
+                cards = that.fitToView(cards, period);
 
-                    var startDay = moment(cards[i].desc, "DD-MM-YYYY");
-                    var endDay   = moment(cards[i].due, "YYYY-MM-DD");
-
-                    //fix those data if task started before current period
-                    if (moment(startDay).isBefore(lowLimit)) {
-                        startDay = lowLimit;
-                    };
-
-                    var length = endDay.dayOfYear() - startDay.dayOfYear();
-
-                    //fix length
-                    if (moment(endDay).isAfter(highLimit)) {
-                        length = highLimit.dayOfYear() - startDay.dayOfYear();
-                    };
-
-
-                    cards[i].color = 'blue';
-
-                    if (cards[i].labels.length > 0) {
-                        cards[i].color = cards[i].labels[0].color;
-                    };
-
-                    cards[i].block_start_doy = startDay.dayOfYear();
-                    cards[i].block_len       = length + 1; //+1 to fill in the last day also
-                    cards[i].index           = i;
-
-                    console.log(cards[i]);
-                };
                 deferred.resolve(cards);
             });
 
@@ -81,6 +87,7 @@ app.factory('user', function($q) {
 
   return user;
 });
+
 
 // MenuService
 app.factory('calendar', function() {
@@ -147,6 +154,7 @@ app.factory('calendar', function() {
                 current: moment().isSame(this.current, 'day'),
                 weekend: (this.current.weekday() == 6 || this.current.weekday() == 0),
                 ofYear: this.current.dayOfYear(),
+                year: this.current.format('YYYY'),
                 date: this.current.format('YYYY-MM-DD')
               });
             };
@@ -246,10 +254,17 @@ app.controller('CalendarCtrl', function($scope, calendar, user, ngDialog) {
       $scope.months = calendar.getMonths();
       var nbDays = 0;
       for (var i = 0; i < $scope.period.length; i++) {
-        nbDays += $scope.period[i].length;
+        nbDays += $scope.period[i].days.length;
       };
 
       $scope.daysContainerWidth = $scope.cellSize * nbDays;
+
+      // try to scroll to current offset
+      setTimeout(function() {
+        $('div.calendar-viewport').animate({
+          scrollLeft: 870
+        }, 500);
+      }, 500)
   };
 
 });

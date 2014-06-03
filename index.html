@@ -53,7 +53,7 @@
                     <div class="users-grid" ng-repeat="(id, user) in users">
                       <div class="day" ng-class='{weekend: day.weekend}'>
                         <!-- start to show tasks for current day -->
-                        <div class="task card-label-{{ task.color }}" style="width: {{task.block_len * cellSize}}px; top: {{ task.index * 30 }}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear }" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
+                        <div class="task card-label-{{ task.color }}" style="width: {{task.block_len * cellSize}}px; top: {{ task.index * 30 }}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear, }:true | filter:{ year: day.year }:true" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
                       </div>
                     </div>
                   </div>
