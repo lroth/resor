@@ -1,0 +1,44 @@
+<div>
+  <nav>
+    <section class="float-left">
+      {{ year }}
+      <a class="btn" ng-click="setMonth(month.nb)" ng-class='{active: month.current}' ng-repeat="month in months">{{ month.shortName }}</a>
+    </section>
+    <section class="float-right">
+      <a class="btn" ng-click="prev()">&laquo; Prev</a>
+      <a class="btn" ng-click="reset()">Today</a>
+      <a class="btn" ng-click="next()">Next &raquo;</a>
+    </section>
+  </nav>
+
+  <aside>
+    <div class="users">
+      <div class="user" ng-repeat="user in users">
+        <div class="user-data"><img src="UI/images/avatar.png" /> {{ user.name }}</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="calendar-viewport">
+    <div class="calendar-grid" style="width: {{ daysContainerWidth }}px">
+      <!-- each month -->
+      <div class="months" ng-repeat="month in period">
+        <div class="month">{{ month.name }}</div>
+        <!-- has few days -->
+        <div class="days">
+          <div class="day" ng-repeat="day in month.days" ng-class='{active: day.current}'>
+            <label>{{ day.nb }}</label>
+            <!-- for each user in this day -->
+            <div class="users-grid" ng-repeat="(id, user) in users">
+              <div class="day" ng-class='{weekend: day.weekend}'>
+                <!-- start to show tasks for current day -->
+                <div class="task card-label-{{ task.color }}" style="width: {{task.block_len * cellSize}}px; top: {{ task.index * 30 }}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear, }:true | filter:{ year: day.year }:true" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
