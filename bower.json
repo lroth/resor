@@ -8,6 +8,7 @@
     "modernizr": "2.7.2",
     "gridle": "~1.1.0",
     "ngDialog": "~0.1.7",
-    "angular-route": "~1.2.18"
+    "angular-route": "~1.2.18",
+    "angular-promise-tracker": "~2.0.1"
   }
 }

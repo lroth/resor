@@ -11,9 +11,13 @@
     <body ng-cloak ng-app="app">
         <div class="container">
             <header role="banner">
-                btn resources
-                <a href="#/timeline">Timeline</a>
-                <a href="#/activity">Activity</a>
+                <h1>Bitnoise</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#/timeline" class="active">Timeline</a></li>
+                        <li><a href="#/activity">Activity</a></li>
+                    </ul>
+                </nav>
             </header>
 
             <section role="main">
@@ -26,6 +30,7 @@
         <script src="https://api.trello.com/1/client.js?key=a4a1fbde221d3ab65ef9235422177a7a"></script>
 
         <script src="vendor/angular/angular.js"></script>
+        <script src="vendor/angular-promise-tracker/promise-tracker.js"></script>
         <script src="vendor/angular-route/angular-route.js"></script>
         <script src="vendor/momentjs/min/moment.min.js"></script>
 

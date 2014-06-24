@@ -10,11 +10,14 @@
       <a class="btn" ng-click="next()">Next &raquo;</a>
     </section>
   </nav>
-
+  <div class="loader loader-9"></div>
+    <div class="loading-box" ng-show="loadingTracker.active()">
+      loading..
+    </div>
   <aside>
     <div class="users">
       <div class="user" ng-repeat="user in users">
-        <div class="user-data"><img src="UI/images/avatar.png" /> {{ user.name }}</div>
+        <div class="user-data"><img ng-src="{{ avatars[user.name] }}" /> {{ user.name }}</div>
       </div>
     </div>
   </aside>
@@ -30,7 +33,7 @@
             <label>{{ day.nb }}</label>
             <!-- for each user in this day -->
             <div class="users-grid" ng-repeat="(id, user) in users">
-              <div class="day" ng-class='{weekend: day.weekend}'>
+              <div class="day" ng-class='{weekend: day.weekend, active: day.current}'>
                 <!-- start to show tasks for current day -->
                 <div class="task card-label-{{ task.color }}" style="width: {{task.block_len * cellSize}}px; top: {{ task.index * 30 }}px" ng-repeat="task in user.tasks | filter:{ block_start_doy: day.ofYear, }:true | filter:{ year: day.year }:true" ng-click="edit(task.id)" stop-event>{{ task.name }}</div>
               </div>

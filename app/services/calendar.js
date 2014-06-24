@@ -1,6 +1,6 @@
-// Calendar movement
+// Calendar service
 angular.module('calendar', [])
-    .service('CalendarService', [function(){ 
+    .service('CalendarService', [function(){
     var calendar = {
         current: moment(),
         toString: function() {
@@ -28,6 +28,7 @@ angular.module('calendar', [])
           return months;
         },
 
+        // get three last months
         monthsAsDays: function() {
             var months = [];
 
@@ -55,6 +56,7 @@ angular.module('calendar', [])
             return months;
         },
 
+        //fetch one month as days
         monthAsDays: function() {
             var days = [];
             for (var i = 1; i <= this.current.daysInMonth(); i++) {
@@ -88,9 +90,28 @@ angular.module('calendar', [])
           this.current = moment();
 
           return this;
+        },
+
+        renderCalendar: function($scope) {
+            $scope.year   = this.getYear();
+            $scope.period = this.monthsAsDays();
+            $scope.months = this.getMonths();
+
+            var nbDays = 0;
+            for (var i = 0; i < $scope.period.length; i++) {
+              nbDays += $scope.period[i].days.length;
+            };
+
+            $scope.daysContainerWidth = $scope.cellSize * nbDays;
+
+            // try to scroll to current offset
+            setTimeout(function() {
+              $('div.calendar-viewport').animate({
+                  scrollLeft: 870
+              }, 500);
+            }, 500);
         }
     }
-
     return calendar;
 }]);
 
