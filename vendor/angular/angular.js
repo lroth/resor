@@ -8050,7 +8050,7 @@ function $HttpProvider() {
 
           reqHeaders[defHeaderName] = defHeaders[defHeaderName];
         }
-
+console.log(reqHeaders);
         return reqHeaders;
 
         function execHeaders(headers) {

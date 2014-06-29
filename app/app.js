@@ -18,6 +18,10 @@ var app = angular.module('app', ['ngRoute', 'calendar', 'user', 'ajoslin.promise
 app.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
+        when('/invoices', {
+            templateUrl: 'app/invoices/index.html',
+            controller: 'InvoicesController'
+        }).
         when('/timeline', {
             templateUrl: 'app/timeline/index.html',
             controller: 'TimelineController'
