@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "githubhook": "~0.5.1",
-    "node-trello": "~0.1.5",
+    "node-trello": "~1.2.1",
     "sockjs": "~0.3.8",
     "rbytes": "~1.0.0",
     "restify": "~2.7.0"
